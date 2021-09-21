@@ -1,0 +1,11 @@
+.wrapper {
+    display: grid;
+    padding: 1%;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 1em;
+}
+
+.card {
+    max-width: 150px;
+}
