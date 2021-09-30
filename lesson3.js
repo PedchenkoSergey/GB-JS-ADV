@@ -150,3 +150,4 @@ cart.addItemToCart(new GoodsItem('Socks', 50))
 cart.addItemToCart(new GoodsItem('Jacket', 350))
 console.log(cart.getTotalSum())
 cart.getCartItems()
+
