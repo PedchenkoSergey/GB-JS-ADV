@@ -1,0 +1,39 @@
+
+const submitButton = document.querySelector('.forms')
+const nameInput = document.querySelector('#NameInput')
+const phoneInput = document.querySelector('#PhoneInput')
+const emailInput = document.querySelector('#EmailInput')
+
+const regExpLetters = new RegExp('^([а-яА-яa-zA-z]+\s)+([а-яА-яa-zA-z]+)$', 'i')
+const regExpPhone = new RegExp('^[\+]7[\(][0-9]{3}[\)][0-9]{3}[\-][0-9]{4}$')
+const regExpEmail = new RegExp('^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.?]{1,6})$')
+
+submitButton.addEventListener('click',(e) => {
+    if (!regExpLetters.test(nameInput.value)) {
+        if (nameInput.classList.contains('good-input')) {nameInput.classList.remove('good-input')}
+        nameInput.classList.add('alert-input')
+    } else {
+        if (nameInput.classList.contains('alert-input')) {nameInput.classList.remove('alert-input')}
+        nameInput.classList.add('good-input')
+    }
+    if (!regExpPhone.test(phoneInput.value)) {
+        if (phoneInput.classList.contains('good-input')) {phoneInput.classList.remove('good-input')}
+        phoneInput.classList.add('alert-input')
+    } else {
+        if (phoneInput.classList.contains('alert-input')) {phoneInput.classList.remove('alert-input')}
+        phoneInput.classList.add('good-input')
+    }
+    if (!regExpEmail.test(emailInput.value)) {
+        if (emailInput.classList.contains('good-input')) {emailInput.classList.remove('good-input')}
+        emailInput.classList.add('alert-input')
+    } else {
+        if (emailInput.classList.contains('alert-input')) {emailInput.classList.remove('alert-input')}
+        emailInput.classList.add('good-input')
+    }
+    console.log(`nameInput.value - ${nameInput.value} - ${nameInput.value.match(regExpLetters)} - ${regExpLetters.test(nameInput.value)}`)
+    console.log(`phoneInput.value - ${regExpPhone.test(phoneInput.value)}`)
+    console.log(`emailInput.value - ${emailInput.value} - ${regExpEmail.test(emailInput.value)}`)
+});
+
+
+//+7(495)715-4780
