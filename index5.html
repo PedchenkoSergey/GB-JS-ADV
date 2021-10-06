@@ -7,6 +7,7 @@
   <link href="style.css" rel="stylesheet">
 </head>
 <body>
+<div id="app">
   <header class="p-3 mb-3 border-bottom">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -16,7 +17,7 @@
         <button class="search-button btn btn-primary" type="button">Искать</button>
       <nav class="navbar navbar-light bg-light">
         <form class="container-fluid justify-content-end">
-          <a class="btn btn-primary" href="index.html" role="button">Список товаров</a>
+          <a class="btn btn-primary" href="index1-4.html" role="button">Список товаров</a>
           <button class="cart-button btn btn-sm btn-outline-secondary" type="button">Корзина</button>
           <a class="btn btn-primary" href="lesson4_form.html" role="button">Форма обратной связи</a>
         </form>
@@ -25,10 +26,22 @@
     </div>
   </header>
   <main>
-    <div class="goods-list wrapper"></div>
+    <div class="goods-list wrapper">
+      <div class="card" v-for="good in filteredGoods" style="width: 18rem;">
+        <img src="static/img/test.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ good.product_name }}</h5>
+          <p class="card-text">Price: {{ good.price }}</p>
+          <a href="#" class="btn btn-primary">Add to cart</a>
+        </div>
+      </div>
+    </div>
   </main>
+</div>
 </body>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
-<script src="lesson4.js"></script>
+<script src="lesson5.js"></script>
 </html>
