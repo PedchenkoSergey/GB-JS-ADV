@@ -12,13 +12,13 @@
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-              <input type="text" class="goods-search form-control" placeholder="Поиск..." aria-label="Search">
+              <input type="text" v-model="searchLine" class="goods-search form-control" placeholder="Поиск..." aria-label="Search">
         </form>
-        <button class="search-button btn btn-primary" type="button">Искать</button>
+        <button class="search-button btn btn-primary" type="button" v-on:click="filterGoods">Искать</button>
       <nav class="navbar navbar-light bg-light">
         <form class="container-fluid justify-content-end">
-          <a class="btn btn-primary" href="index1-4.html" role="button">Список товаров</a>
-          <button class="cart-button btn btn-sm btn-outline-secondary" type="button">Корзина</button>
+          <a class="btn btn-primary" href="index5.html" role="button">Список товаров</a>
+          <button class="cart-button btn btn-sm btn-outline-secondary" type="button" v-on:click="viewBasket">Корзина</button>
           <a class="btn btn-primary" href="lesson4_form.html" role="button">Форма обратной связи</a>
         </form>
       </nav>
@@ -32,8 +32,29 @@
         <div class="card-body">
           <h5 class="card-title">{{ good.product_name }}</h5>
           <p class="card-text">Price: {{ good.price }}</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
+          <a v-on:click="getAddCartItem(good.id_product)" class="btn btn-primary">Add to cart</a>
         </div>
+      </div>
+      <p v-if="filteredGoods.length == 0">«Нет данных»</p>
+    </div>
+    <hr>
+    <div class="basket" v-if="isVisibleCart">
+      <h3>Корзина:</h3>
+      <div class="cart-element">
+        <table>
+          <tr><th>Название</th><th>Цена</th><th>Количество</th></tr> <!--ряд с ячейками заголовков-->
+          <tr v-for="product in cartGoodsList.contents">
+            <td>{{product.product_name}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.quantity}}</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td>Итого в корзине на сумму:</td>
+            <td>{{cartGoodsList.amount}}</td>
+          </tr>
+        </table>
       </div>
     </div>
   </main>

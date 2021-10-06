@@ -31,3 +31,14 @@ form .forms {
 .good-input {
     border-color: greenyellow;
 }
+
+table {
+    margin: 10px 10px;
+   border: 1px solid grey;
+}
+th {
+   border: 1px solid grey;
+}
+td {
+   border: 1px solid grey;
+}
