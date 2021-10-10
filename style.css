@@ -42,3 +42,7 @@ th {
 td {
    border: 1px solid grey;
 }
+
+.search-line {
+    display: flex;
+}
