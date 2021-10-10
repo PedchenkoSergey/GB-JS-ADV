@@ -9,3 +9,25 @@
 .card {
     max-width: 150px;
 }
+
+header .btn-primary {
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
+form .forms {
+    margin-top: 15px;
+
+}
+
+.wrapper {
+    padding: 50px 50px;
+}
+
+.alert-input {
+    border-color: red;
+}
+
+.good-input {
+    border-color: greenyellow;
+}
