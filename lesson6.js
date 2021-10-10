@@ -18,7 +18,6 @@ Vue.component('goods-item', {
         <p class="card-text">Price: {{ good.price }}</p>
         <a v-on:click="getAddCartItem(good.id_product)" class="btn btn-primary">Add to cart</a>
       </div>
-<!--      <p v-if="filteredGoods.length == 0">«Нет данных»</p>-->
     </div>`
 });
 
@@ -38,6 +37,35 @@ Vue.component('vue-goods-search', {
   }
 });
 
+Vue.component('vue-goods-cart', {
+  props: ['cart_goods_list'],
+  template: `
+  <div class="cart-element">
+    <table>
+      <tr><th>Название</th><th>Цена</th><th>Количество</th></tr> <!--ряд с ячейками заголовков-->
+      <tr v-for="product in cart_goods_list.contents">
+        <td>{{product.product_name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.quantity}}</td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <td>Итого в корзине на сумму:</td>
+        <td>{{cart_goods_list.amount}}</td>
+      </tr>
+    </table>
+  </div>
+  `
+});
+
+Vue.component('vue-server-error', {
+  props: ['server_ok'],
+  template:`
+    <p v-if="!server_ok">Пропала связь с сервером! Небходимо принять меры!</p>
+  `
+})
+
 const app = new Vue({
   el: '#app',
   data: {
@@ -47,6 +75,7 @@ const app = new Vue({
     cartGoodsList: [],
     cartSum: 0,
     id_prod: 0,
+    serverOK: false,
     API_URL: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses',
     API_CATALOG: '/catalogData.json', //– получить список товаров;
     API_BASKET: '/getBasket.json', //– получить содержимое корзины;
@@ -91,7 +120,10 @@ const app = new Vue({
             console.log(`The basket consists of: ${goods}`);
             this.cartGoodsList = JSON.parse(goods);
           })
-          .catch((err) => console.log(`Error: ${err}`))
+          .catch((err) => {
+            console.log(`Error: ${err}`);
+            this.serverOK = false;
+          })
     },
     getAddCartItem(addId) {
       const productToAdd =
@@ -103,8 +135,12 @@ const app = new Vue({
           .then((feedback) => {
             console.log(`The feedback from the server: ${feedback}`);
             console.log(addId)
+            this.serverOK = true;
           })
-          .catch((err) => console.log(`Error: ${err}`))
+          .catch((err) => {
+            console.log(`Error: ${err}`);
+            this.serverOK = false;
+          })
     },
   },
 
@@ -113,8 +149,12 @@ const app = new Vue({
         .then((goods) => {
           this.goods = JSON.parse(goods);
           this.filteredGoods = JSON.parse(goods);
+          this.serverOK = true;
         })
-        .catch((err) => console.log(`Error: ${err}`))
+        .catch((err) => {
+          console.log(`Error: ${err}`)
+          this.serverOK = false;
+        })
   }
 
 });

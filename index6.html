@@ -12,7 +12,6 @@
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <vue-goods-search @filter-comp="filterGoods"></vue-goods-search>
-
       <nav class="navbar navbar-light bg-light">
         <form class="container-fluid justify-content-end">
           <a class="btn btn-primary" href="index5.html" role="button">Список товаров</a>
@@ -25,26 +24,11 @@
   </header>
   <main>
     <goods-list :goods="filteredGoods"></goods-list>
-
+    <vue-server-error :server_ok="serverOK"></vue-server-error>
     <hr>
     <div class="basket" v-if="isVisibleCart">
       <h3>Корзина:</h3>
-      <div class="cart-element">
-        <table>
-          <tr><th>Название</th><th>Цена</th><th>Количество</th></tr> <!--ряд с ячейками заголовков-->
-          <tr v-for="product in cartGoodsList.contents">
-            <td>{{product.product_name}}</td>
-            <td>{{product.price}}</td>
-            <td>{{product.quantity}}</td>
-          </tr>
-        </table>
-        <table>
-          <tr>
-            <td>Итого в корзине на сумму:</td>
-            <td>{{cartGoodsList.amount}}</td>
-          </tr>
-        </table>
-      </div>
+      <vue-goods-cart :cart_goods_list="cartGoodsList"></vue-goods-cart>
     </div>
   </main>
 </div>
