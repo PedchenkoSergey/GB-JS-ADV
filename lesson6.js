@@ -42,18 +42,22 @@ Vue.component('vue-goods-cart', {
   template: `
   <div class="cart-element">
     <table>
-      <tr><th>Название</th><th>Цена</th><th>Количество</th></tr> <!--ряд с ячейками заголовков-->
-      <tr v-for="product in cart_goods_list.contents">
+        <thead style="background: #fc0">
+        <tr><th>Название</th><th>Цена</th><th>Количество</th></tr> <!--ряд с ячейками заголовков-->
+        </thead>
+        <tfoot style="background: palegreen">
+        <tr>
+            <td>Итого в корзине на сумму:</td>
+            <td>{{cart_goods_list.amount}}</td>
+        </tr>
+        </tfoot>
+        <tbody style="background: #ccc">
+        <tr v-for="product in cart_goods_list.contents">
         <td>{{product.product_name}}</td>
         <td>{{product.price}}</td>
         <td>{{product.quantity}}</td>
-      </tr>
-    </table>
-    <table>
-      <tr>
-        <td>Итого в корзине на сумму:</td>
-        <td>{{cart_goods_list.amount}}</td>
-      </tr>
+        </tr>
+        </tbody>
     </table>
   </div>
   `
@@ -111,7 +115,7 @@ const app = new Vue({
       this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
     },
     viewBasket() {
-      this.isVisibleCart ? this.isVisibleCart = false : this.isVisibleCart = true
+      this.isVisibleCart = !this.isVisibleCart
       this.getCartItems()
     },
     getCartItems() {
