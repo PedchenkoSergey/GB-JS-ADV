@@ -45,7 +45,7 @@ const app = new Vue({
     },
     viewBasket() {
       this.isVisibleCart = !this.isVisibleCart
-      this.getCartItems()
+      // this.getCartItems()
     },
     getCartItems() {
       this.makeGETRequest(`${this.API_URL}/${this.API_BASKET}`)
@@ -56,17 +56,51 @@ const app = new Vue({
           .catch((err) => console.log(`Error: ${err}`))
     },
     getAddCartItem(addId) {
-      const productToAdd =
-        {
-          "id_product" : addId,
-          "quantity" : 1
+      console.log(`In the basket is the following items: ${JSON.stringify(this.cartGoodsList)}`)
+      for (let i = 0; i < this.goods.length; i++) {
+        if (this.goods[i].id_product === addId) {
+          console.log(`${this.goods[i].product_name}`);
+          this.cartGoodsList.amount += this.goods[i].price
+          this.cartGoodsList.countGoods += 1
+          let inBasket = false; // Check the item is already in basket
+          for (let j = 0; j < this.cartGoodsList.contents.length; j++) {
+            if (this.cartGoodsList.contents[j].id_product === addId) {
+              this.cartGoodsList.contents[j].quantity += 1;
+              inBasket = true
+            }
+          }
+          if (!inBasket){
+              this.goods[i]['quantity'] = 1
+              this.cartGoodsList.contents.push(this.goods[i])
+            }
         }
-      this.makeGETRequest(`${this.API_URL}/${this.API_ADD_BASKET}`)
-          .then((feedback) => {
-            console.log(`The feedback from the server: ${feedback}`);
-            console.log(addId)
-          })
-          .catch((err) => console.log(`Error: ${err}`))
+      }
+// {
+//   "amount": 46600,
+//   "countGoods": 2,
+//   "contents": [
+//     {
+//       "id_product": 123,
+//       "product_name": "Ноутбук",
+//       "price": 45600,
+//       "quantity": 1
+//     },
+//     {
+//       "id_product": 456,
+//       "product_name": "Мышка",
+//       "price": 1000,
+//       "quantity": 1
+//     }
+//   ]
+// }
+// {"id_product":123,"product_name":"Ноутбук","price":45600}
+    //   const productToAdd =
+    //     {
+    //       "id_product" : addId,
+    //       "quantity" : 1
+    //     }
+    //
+
     },
   },
 
@@ -76,7 +110,8 @@ const app = new Vue({
           this.goods = JSON.parse(goods);
           this.filteredGoods = JSON.parse(goods);
         })
-        .catch((err) => console.log(`Error: ${err}`))
+        .catch((err) => console.log(`Error: ${err}`));
+    this.getCartItems();
   }
 
 });
