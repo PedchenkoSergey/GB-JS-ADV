@@ -42,18 +42,22 @@
       <h3>Корзина:</h3>
       <div class="cart-element">
         <table>
+          <thead style="background: #fc0">
           <tr><th>Название</th><th>Цена</th><th>Количество</th></tr> <!--ряд с ячейками заголовков-->
+          </thead>
+          <tfoot style="background: palegreen">
+            <tr>
+              <td>Итого в корзине на сумму:</td>
+              <td>{{cartGoodsList.amount}}</td>
+            </tr>
+          </tfoot>
+          <tbody style="background: #ccc">
           <tr v-for="product in cartGoodsList.contents">
             <td>{{product.product_name}}</td>
             <td>{{product.price}}</td>
             <td>{{product.quantity}}</td>
           </tr>
-        </table>
-        <table>
-          <tr>
-            <td>Итого в корзине на сумму:</td>
-            <td>{{cartGoodsList.amount}}</td>
-          </tr>
+          </tbody>
         </table>
       </div>
     </div>

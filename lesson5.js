@@ -44,7 +44,7 @@ const app = new Vue({
       this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
     },
     viewBasket() {
-      this.isVisibleCart ? this.isVisibleCart = false : this.isVisibleCart = true
+      this.isVisibleCart = !this.isVisibleCart
       this.getCartItems()
     },
     getCartItems() {
