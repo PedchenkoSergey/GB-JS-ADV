@@ -28,7 +28,7 @@
     <hr>
     <div class="basket" v-if="isVisibleCart">
       <h3>Корзина:</h3>
-      <vue-goods-cart :cart_goods_list="cartGoodsList"></vue-goods-cart>
+      <vue-goods-cart :cart_goods_list="cartGoodsList" @basket-delete="deleteBasketElement"></vue-goods-cart>
     </div>
   </main>
 </div>

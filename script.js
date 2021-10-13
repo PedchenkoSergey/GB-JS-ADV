@@ -53,7 +53,7 @@ Vue.component('vue-goods-cart', {
   <div class="cart-element">
     <table>
         <thead style="background: #fc0">
-        <tr><th>Название</th><th>Цена</th><th>Количество</th></tr> <!--ряд с ячейками заголовков-->
+        <tr><th>Название</th><th>Цена</th><th>Количество</th><th>Удалить</th></tr> <!--ряд с ячейками заголовков-->
         </thead>
         <tfoot style="background: palegreen">
         <tr>
@@ -63,14 +63,20 @@ Vue.component('vue-goods-cart', {
         </tfoot>
         <tbody style="background: #ccc">
         <tr v-for="product in cart_goods_list.contents">
-        <td>{{product.product_name}}</td>
-        <td>{{product.price}}</td>
-        <td>{{product.quantity}}</td>
+          <td>{{product.product_name}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.quantity}}</td>
+          <td><a class="btn btn-danger" v-on:click="deleteElement(product.id_product)">Удалить</a></td>
         </tr>
         </tbody>
     </table>
   </div>
-  `
+  `,
+  methods: {
+    deleteElement(deleteId) {
+      this.$emit('basket-delete', deleteId)
+    }
+  }
 });
 
 Vue.component('vue-server-error', {
@@ -92,9 +98,9 @@ const app = new Vue({
     serverOK: false,
     API_URL: 'http://localhost:3000',
     API_CATALOG: 'catalogData', //– получить список товаров;
-    API_BASKET: '/getBasket.json', //– получить содержимое корзины;
+    API_BASKET: 'getBasket', //– получить содержимое корзины;
     API_ADD_BASKET: 'addToCart', // – добавить товар в корзину;
-    API_DELETE_BASKET: '/deleteFromBasket.json' //– удалить товар из корзины.
+    API_DELETE_BASKET: 'deleteFromBasket' //– удалить товар из корзины.
   },
   methods: {
     makeGETRequest(url) {
@@ -184,8 +190,23 @@ const app = new Vue({
       console.log(JSON.stringify(product_add))
       this.makePOSTRequest(`${this.API_URL}/${this.API_ADD_BASKET}`, JSON.stringify(product_add))
           .then((res) => console.log(res))
+          .then(() => this.getCartItems())
           .catch((err) => console.log(err))
     },
+
+    deleteBasketElement(deleteId) {
+      let product_delete = {}
+      for (let i = 0; i < this.goods.length; i++) {
+        if (this.goods[i].id_product === deleteId) {
+          product_delete = this.goods[i]
+        }
+      }
+      console.log(JSON.stringify(product_delete))
+      this.makePOSTRequest(`${this.API_URL}/${this.API_DELETE_BASKET}`, JSON.stringify(product_delete))
+          .then((res) => console.log(res))
+          .then(() => this.getCartItems())
+          .catch((err) => console.log(err))
+    }
   },
 
   mounted() {
