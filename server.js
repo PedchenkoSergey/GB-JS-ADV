@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('fs');
-const format = require('date-fns/format')
+//const format = require('date-fns/format') - для гита слишком много файлов
 
 // format(new Date(), 'dd-MM-yyyy HH:mm:ss')
 
@@ -55,7 +55,7 @@ app.post('/addToCart', (req, res) => {
     fs.readFile('stats.json', 'utf-8', (err, data) => {
       const stats = JSON.parse(data)
       const new_data = {
-        "date": format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        "date": new Date().toLocaleString(),
         "action": "AddToCart",
         "good name": item.product_name
       }
@@ -103,7 +103,7 @@ app.post('/deleteFromBasket', (req, res) => {
     fs.readFile('stats.json', 'utf-8', (err, data) => {
       const stats = JSON.parse(data)
       const new_data = {
-        "date": format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        "date": new Date().toLocaleString(),
         "action": "DeleteFromCart",
         "good name": item.product_name
       }
