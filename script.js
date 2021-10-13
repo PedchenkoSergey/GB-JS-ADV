@@ -26,7 +26,6 @@ Vue.component('goods-item', {
     </div>`,
   methods: {
     getAddCartItem(id_prod) {
-      console.log(id_prod)
       this.$emit('add-id-basket', id_prod)
     }
   }
@@ -121,38 +120,47 @@ const app = new Vue({
         xhr.send();
       })
     },
+
+
     makePOSTRequest(url, data) {
-      let xhr;
+      return new Promise((resolve, reject) => {
+        let xhr;
 
-      if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest();
-      } else if (window.ActiveXObject) {
-        xhr = new ActiveXObject("Microsoft.XMLHTTP");
-      }
+        if (window.XMLHttpRequest) {
+          xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+          xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
 
-      xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function () {
           if (xhr.readyState === 4) {
             if (xhr.status === 200) {
               resolve(xhr.responseText);
+            } else {
+              reject(`Status is not 200: ${xhr.status}`)
             }
-            else {reject(`Status is not 200: ${xhr.status}`)}
           }
         }
 
-      xhr.open('POST', url, true);
-      xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-
-      xhr.send(data);
-
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        xhr.send(data);
+      });
     },
+
+
     filterGoods(search_line) {
       const regexp = new RegExp(search_line, 'i');
       this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
     },
+
+
     viewBasket() {
       this.isVisibleCart = !this.isVisibleCart
       this.getCartItems()
     },
+
+
     getCartItems() {
       this.makeGETRequest(`${this.API_URL}/${this.API_BASKET}`)
           .then((goods) => {
@@ -164,13 +172,19 @@ const app = new Vue({
             this.serverOK = false;
           })
     },
+
+
     postAddCartItem(addId) {
+      let product_add = {}
       for (let i = 0; i < this.goods.length; i++) {
         if (this.goods[i].id_product === addId) {
-          console.log(JSON.stringify(this.goods[i]))
+          product_add = this.goods[i]
         }
       }
-
+      console.log(JSON.stringify(product_add))
+      this.makePOSTRequest(`${this.API_URL}/${this.API_ADD_BASKET}`, JSON.stringify(product_add))
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err))
     },
   },
 

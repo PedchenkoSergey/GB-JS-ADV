@@ -15,9 +15,10 @@ app.get('/catalogData', (req, res) => {
 app.post('/addToCart', (req, res) => {
   fs.readFile('cart.json', 'utf8', (err, data) => {
     const cart = JSON.parse(data);
+    console.log(`Cart in received POST ${cart}`)
     const item = req.body;
-
-    cart.push(item);
+    console.log(`received POST ${item}`)
+    cart.contents.push(item);
 
     fs.writeFile('cart.json', JSON.stringify(cart), (err) => {
       if (err) {
