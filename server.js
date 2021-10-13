@@ -1,5 +1,8 @@
 const express = require('express');
 const fs = require('fs');
+const format = require('date-fns/format')
+
+// format(new Date(), 'dd-MM-yyyy HH:mm:ss')
 
 const app = express();
 
@@ -48,6 +51,24 @@ app.post('/addToCart', (req, res) => {
         res.send('{"result": 1}');
       }
     });
+
+    fs.readFile('stats.json', 'utf-8', (err, data) => {
+      const stats = JSON.parse(data)
+      const new_data = {
+        "date": format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        "action": "AddToCart",
+        "good name": item.product_name
+      }
+
+      stats.push(new_data)
+
+      fs.writeFile('stats.json', JSON.stringify(stats), (err) => {
+        if (err) {
+          console.log("Error during writing stats")
+        }
+      })
+    });
+
   });
 });
 
@@ -78,6 +99,24 @@ app.post('/deleteFromBasket', (req, res) => {
         res.send('{"result": 1}');
       }
     });
+
+    fs.readFile('stats.json', 'utf-8', (err, data) => {
+      const stats = JSON.parse(data)
+      const new_data = {
+        "date": format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        "action": "DeleteFromCart",
+        "good name": item.product_name
+      }
+
+      stats.push(new_data)
+
+      fs.writeFile('stats.json', JSON.stringify(stats), (err) => {
+        if (err) {
+          console.log("Error during writing stats")
+        }
+      })
+    });
+
   });
 });
 
