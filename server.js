@@ -20,11 +20,12 @@ app.post('/addToCart', (req, res) => {
     cart.push(item);
 
     fs.writeFile('cart.json', JSON.stringify(cart), (err) => {
-     if (err) {
-            res.send('{"result": 0}');
-          } else {
-            res.send('{"result": 1}');
-          }
+      if (err) {
+        res.send('{"result": 0}');
+      } else {
+        res.send('{"result": 1}');
+      }
+    });
   });
 });
 
