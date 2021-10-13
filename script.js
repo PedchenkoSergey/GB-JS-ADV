@@ -3,9 +3,14 @@ Vue.component('goods-list', {
   props: ['goods'],
   template: `
   <div class="goods-list wrapper">
-    <goods-item v-for="good in goods" :good="good"></goods-item>
+    <goods-item v-for="good in goods" :good="good" @add-id-basket="postAddCartItemInner"></goods-item>
   </div>
-  `
+  `,
+  methods: {
+    postAddCartItemInner(id) {
+      this.$emit('add-id-basket-inner', id)
+    }
+  }
 });
 
 Vue.component('goods-item', {
@@ -18,7 +23,13 @@ Vue.component('goods-item', {
         <p class="card-text">Price: {{ good.price }}</p>
         <a v-on:click="getAddCartItem(good.id_product)" class="btn btn-primary">Add to cart</a>
       </div>
-    </div>`
+    </div>`,
+  methods: {
+    getAddCartItem(id_prod) {
+      console.log(id_prod)
+      this.$emit('add-id-basket', id_prod)
+    }
+  }
 });
 
 Vue.component('vue-goods-search', {
@@ -83,7 +94,7 @@ const app = new Vue({
     API_URL: 'http://localhost:3000',
     API_CATALOG: 'catalogData', //– получить список товаров;
     API_BASKET: '/getBasket.json', //– получить содержимое корзины;
-    API_ADD_BASKET: '/addToBasket.json', // – добавить товар в корзину;
+    API_ADD_BASKET: 'addToCart', // – добавить товар в корзину;
     API_DELETE_BASKET: '/deleteFromBasket.json' //– удалить товар из корзины.
   },
   methods: {
@@ -153,22 +164,13 @@ const app = new Vue({
             this.serverOK = false;
           })
     },
-    getAddCartItem(addId) {
-      const productToAdd =
-        {
-          "id_product" : addId,
-          "quantity" : 1
+    postAddCartItem(addId) {
+      for (let i = 0; i < this.goods.length; i++) {
+        if (this.goods[i].id_product === addId) {
+          console.log(JSON.stringify(this.goods[i]))
         }
-      this.makeGETRequest(`${this.API_URL}/${this.API_ADD_BASKET}`)
-          .then((feedback) => {
-            console.log(`The feedback from the server: ${feedback}`);
-            console.log(addId)
-            this.serverOK = true;
-          })
-          .catch((err) => {
-            console.log(`Error: ${err}`);
-            this.serverOK = false;
-          })
+      }
+
     },
   },
 

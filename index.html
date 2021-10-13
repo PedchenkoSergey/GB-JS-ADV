@@ -23,7 +23,7 @@
     </div>
   </header>
   <main>
-    <goods-list :goods="filteredGoods"></goods-list>
+    <goods-list :goods="filteredGoods" @add-id-basket-inner="postAddCartItem"></goods-list>
     <vue-server-error :server_ok="serverOK"></vue-server-error>
     <hr>
     <div class="basket" v-if="isVisibleCart">
