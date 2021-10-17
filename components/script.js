@@ -1,22 +1,7 @@
 const {goods_list} = require('./goods_list.js')
 const {vue_goods_search} = require('./vue_goods_search.js')
 const {vue_goods_cart} = require('./vue_goods_cart.js')
-
-export default {
-  components: {
-    goods_list,
-    vue_goods_search,
-    vue_goods_cart
-  },
-}
-
-
-const vue_server_error = {
-  props: ['server_ok'],
-  template:`
-    <p v-if="!server_ok">Пропала связь с сервером! Небходимо принять меры!</p>
-  `
-}
+const {vue_server_error} = require('./vue_server_error.js')
 
 
 const app = new Vue({
