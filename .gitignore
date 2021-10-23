@@ -1,3 +1,4 @@
 /.idea
 ~$*
 node_modules
+/lesson8_calc/node_modules
